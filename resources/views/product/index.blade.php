@@ -17,7 +17,7 @@
 @endpush
 
 @section('content')
-<div class="container-fluid">
+<div class="">
     <div class="d-flex align-items-center justify-content-between">
         <h1>Products</h1>
     </div>

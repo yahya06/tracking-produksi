@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `divisions` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `divisions_name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table tracking2.divisions: ~10 rows (approximately)
 INSERT INTO `divisions` (`id`, `name`, `created_at`, `updated_at`) VALUES
@@ -74,12 +74,13 @@ CREATE TABLE IF NOT EXISTS `division_outputs` (
   CONSTRAINT `division_outputs_division_id_foreign` FOREIGN KEY (`division_id`) REFERENCES `divisions` (`id`) ON DELETE CASCADE,
   CONSTRAINT `division_outputs_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
   CONSTRAINT `division_outputs_unit_size_id_foreign` FOREIGN KEY (`unit_size_id`) REFERENCES `size_units` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tracking2.division_outputs: ~2 rows (approximately)
+-- Dumping data for table tracking2.division_outputs: ~3 rows (approximately)
 INSERT INTO `division_outputs` (`id`, `division_id`, `product_id`, `unit_size_id`, `qty`, `input_date`, `created_at`, `updated_at`) VALUES
-	(11, 1, 6, 2, 15, '2024-12-12', '2024-12-12 00:42:32', '2024-12-12 00:42:32'),
-	(19, 5, 6, 3, 5, '2025-01-06', '2025-01-06 00:54:18', '2025-01-06 00:54:18');
+	(23, 4, 11, 1, 15, '2025-01-17', '2025-01-16 00:30:47', '2025-01-16 19:51:22'),
+	(25, 5, 11, 1, 20, '2025-01-17', '2025-01-16 17:49:34', '2025-01-16 17:49:34'),
+	(26, 8, 9, 2, 15, '2025-01-17', '2025-01-16 17:50:04', '2025-01-16 17:50:04');
 
 -- Dumping structure for table tracking2.failed_jobs
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
@@ -136,9 +137,9 @@ CREATE TABLE IF NOT EXISTS `kategoris` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `kategoris_name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tracking2.kategoris: ~3 rows (approximately)
+-- Dumping data for table tracking2.kategoris: ~4 rows (approximately)
 INSERT INTO `kategoris` (`id`, `name`, `created_at`, `updated_at`) VALUES
 	(1, 'Baju Anak', '2024-12-12 00:39:53', '2024-12-12 00:39:53'),
 	(2, 'PDL/PDH/Korsa/Kemeja', '2024-12-12 00:39:53', '2024-12-12 00:39:53'),
@@ -150,9 +151,9 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tracking2.migrations: ~10 rows (approximately)
+-- Dumping data for table tracking2.migrations: ~11 rows (approximately)
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(1, '0001_01_01_000000_create_users_table', 1),
 	(2, '0001_01_01_000001_create_cache_table', 1),
@@ -163,7 +164,33 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(7, '2024_12_04_163651_create_products_table', 1),
 	(8, '2024_12_04_163700_create_sizes_table', 1),
 	(9, '2024_12_04_163714_create_division_outputs_table', 1),
-	(10, '2024_12_16_034031_create_product_divisons_table', 2);
+	(10, '2024_12_16_034031_create_product_divisons_table', 2),
+	(12, '2025_01_16_052631_add_is_completed_to_products_table', 3),
+	(13, '2025_01_17_051901_create_permission_tables', 4);
+
+-- Dumping structure for table tracking2.model_has_permissions
+CREATE TABLE IF NOT EXISTS `model_has_permissions` (
+  `permission_id` bigint unsigned NOT NULL,
+  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint unsigned NOT NULL,
+  PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`),
+  CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tracking2.model_has_permissions: ~0 rows (approximately)
+
+-- Dumping structure for table tracking2.model_has_roles
+CREATE TABLE IF NOT EXISTS `model_has_roles` (
+  `role_id` bigint unsigned NOT NULL,
+  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint unsigned NOT NULL,
+  PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`),
+  CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tracking2.model_has_roles: ~0 rows (approximately)
 
 -- Dumping structure for table tracking2.password_reset_tokens
 CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
@@ -175,6 +202,19 @@ CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
 
 -- Dumping data for table tracking2.password_reset_tokens: ~0 rows (approximately)
 
+-- Dumping structure for table tracking2.permissions
+CREATE TABLE IF NOT EXISTS `permissions` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tracking2.permissions: ~0 rows (approximately)
+
 -- Dumping structure for table tracking2.products
 CREATE TABLE IF NOT EXISTS `products` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -182,6 +222,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `name_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `customer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `deadline` date NOT NULL,
+  `is_completed` tinyint(1) NOT NULL DEFAULT '0',
   `kategori_id` bigint unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -189,12 +230,13 @@ CREATE TABLE IF NOT EXISTS `products` (
   UNIQUE KEY `products_code_product_unique` (`code_product`),
   KEY `products_kategori_id_foreign` (`kategori_id`),
   CONSTRAINT `products_kategori_id_foreign` FOREIGN KEY (`kategori_id`) REFERENCES `kategoris` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tracking2.products: ~2 rows (approximately)
-INSERT INTO `products` (`id`, `code_product`, `name_product`, `customer`, `deadline`, `kategori_id`, `created_at`, `updated_at`) VALUES
-	(6, 'dz-123', 'kemko', 'dzikrayaat', '2025-01-10', 2, '2024-12-12 00:41:59', '2025-01-03 01:54:27'),
-	(9, 'kht', 'kemko2', 'sdads', '2025-01-23', 2, '2025-01-06 01:08:24', '2025-01-06 01:08:24');
+-- Dumping data for table tracking2.products: ~3 rows (approximately)
+INSERT INTO `products` (`id`, `code_product`, `name_product`, `customer`, `deadline`, `is_completed`, `kategori_id`, `created_at`, `updated_at`) VALUES
+	(9, 'kht', 'kemko2', 'sdads', '2025-01-23', 0, 2, '2025-01-06 01:08:24', '2025-01-06 01:08:24'),
+	(10, 'EGI-15', 'safsdfvcv', 'sdads', '2025-01-17', 0, 1, '2025-01-15 22:31:32', '2025-01-15 23:39:15'),
+	(11, 'qo', 'Jaket', 'Hasby', '2025-01-17', 0, 3, '2025-02-16 01:45:18', '2025-02-16 01:45:18');
 
 -- Dumping structure for table tracking2.product_divisons
 CREATE TABLE IF NOT EXISTS `product_divisons` (
@@ -212,6 +254,31 @@ CREATE TABLE IF NOT EXISTS `product_divisons` (
 
 -- Dumping data for table tracking2.product_divisons: ~0 rows (approximately)
 
+-- Dumping structure for table tracking2.roles
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tracking2.roles: ~0 rows (approximately)
+
+-- Dumping structure for table tracking2.role_has_permissions
+CREATE TABLE IF NOT EXISTS `role_has_permissions` (
+  `permission_id` bigint unsigned NOT NULL,
+  `role_id` bigint unsigned NOT NULL,
+  PRIMARY KEY (`permission_id`,`role_id`),
+  KEY `role_has_permissions_role_id_foreign` (`role_id`),
+  CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tracking2.role_has_permissions: ~0 rows (approximately)
+
 -- Dumping structure for table tracking2.sessions
 CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -227,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 
 -- Dumping data for table tracking2.sessions: ~1 rows (approximately)
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-	('VggHwZywp45t5UKsCRAIhydoWz6HLiha6ZBKSGnj', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVHR5TnlZb2FpSmVsMjRuTkdxQWFZdjRYekZVNHN1R2VaWG1lVE15bSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly90cmFja2luZzIudGVzdC9zaXpldW5pdCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1736151020);
+	('Vh6kxtmXiZj7vfenPPnF1jzAGoutDAdtN3Bmfzdc', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTGw3V3BWeVlKWjdnbHpSTVFtYm9XQkMxWWFIaXJYd2p4ZXU3MmFYSSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly90cmFja2luZzIudGVzdC9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1737091326);
 
 -- Dumping structure for table tracking2.sizes
 CREATE TABLE IF NOT EXISTS `sizes` (
@@ -242,15 +309,14 @@ CREATE TABLE IF NOT EXISTS `sizes` (
   KEY `sizes_size_unit_id_foreign` (`size_unit_id`),
   CONSTRAINT `sizes_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
   CONSTRAINT `sizes_size_unit_id_foreign` FOREIGN KEY (`size_unit_id`) REFERENCES `size_units` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tracking2.sizes: ~5 rows (approximately)
+-- Dumping data for table tracking2.sizes: ~4 rows (approximately)
 INSERT INTO `sizes` (`id`, `product_id`, `size_unit_id`, `qty`, `created_at`, `updated_at`) VALUES
-	(26, 6, 2, 21, '2025-01-06 00:31:48', '2025-01-06 00:31:48'),
-	(27, 6, 3, 10, '2025-01-06 00:31:48', '2025-01-06 00:31:48'),
-	(28, 6, 1, 15, '2025-01-06 00:31:48', '2025-01-06 00:31:48'),
 	(29, 9, 1, 15, '2025-01-06 01:08:24', '2025-01-06 01:08:24'),
-	(30, 9, 2, 50, '2025-01-06 01:08:24', '2025-01-06 01:08:24');
+	(30, 9, 2, 50, '2025-01-06 01:08:24', '2025-01-06 01:08:24'),
+	(33, 11, 1, 10, '2025-01-16 01:45:18', '2025-01-16 01:45:18'),
+	(37, 10, 3, 15, '2025-01-16 17:47:49', '2025-01-16 17:47:49');
 
 -- Dumping structure for table tracking2.size_units
 CREATE TABLE IF NOT EXISTS `size_units` (
@@ -260,13 +326,14 @@ CREATE TABLE IF NOT EXISTS `size_units` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `size_units_name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tracking2.size_units: ~3 rows (approximately)
+-- Dumping data for table tracking2.size_units: ~5 rows (approximately)
 INSERT INTO `size_units` (`id`, `name`, `created_at`, `updated_at`) VALUES
 	(1, 'S', '2024-12-12 00:39:53', '2024-12-12 00:39:53'),
 	(2, 'M', '2024-12-12 00:39:53', '2024-12-12 00:39:53'),
-	(3, 'L', '2024-12-12 00:39:53', '2024-12-12 00:39:53');
+	(3, 'L', '2024-12-12 00:39:53', '2024-12-12 00:39:53'),
+	(4, 'XL', '2025-01-16 17:48:21', '2025-01-16 17:48:21');
 
 -- Dumping structure for table tracking2.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -282,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tracking2.users: ~1 rows (approximately)
+-- Dumping data for table tracking2.users: ~0 rows (approximately)
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 	(1, 'admin', 'admin@gmail.com', '2024-12-12 00:39:53', '$2y$12$mJzJaOaiCyK9C0DrjQBBR.NK7LzvHBBLjr7y2IqtA0bHEExW.SsEO', 'v5zBTg7KDF', '2024-12-12 00:39:53', '2024-12-12 00:39:53');
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\product;
 use Carbon\Carbon;
+use Illuminate\Container\Attributes\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class dashboardController extends Controller
 {
@@ -23,13 +25,12 @@ class dashboardController extends Controller
         $outstandingCount = $products->count();
 
         // Produk hari ini deadline
-        $todayDeadline = Product::dashboardFilter()
-                        ->get()->filter(function ($product){
+        $todayDeadline = Product::dashboardFilter()->whereDate('deadline', $today)->get()
+                        ->filter(function ($product){
                             return $product->progress < 100;
-                        })
-                        ->where('deadline', '=', $today);
+                        });
         $todayDeadlineCount = $todayDeadline->count();
-
+        // dd($todayDeadline);
         // Produk mendekati deadline (H-3)
         $nearDeadline = Product::dashboardFilter()
                         ->get()->filter(function ($product){

@@ -27,6 +27,12 @@ Route::resource('inputdivisi', DivisionOutputController::class);
 Route::get('/api/products/{product}/sizes', function (product $product) {
     return $product->unitSizes; // Pastikan relasi `unitSizes` sudah diatur di model `Product`
 });
+Route::get('/api/products/{product}', function (Product $product) {
+    return response()->json([
+        'name_product' => $product->name_product,
+        'customer' => $product->customer, // Pastikan ada relasi `customer`
+    ]);
+});
 
 Route::get('/api/orders/{productId}/{sizeUnitId}', [DivisionOutputController::class, 'getOrdersByProductAndSize']);
 
