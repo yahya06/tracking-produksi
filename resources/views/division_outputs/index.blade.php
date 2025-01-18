@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-xl-8 col-md-8 mb-4">
             <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex align-items-center justify-content-between ">
+                <div class="card-header py-3 d-flex align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">DataTables Output Production</h6>
                     <a href="{{ route('inputdivisi.create') }}" class="btn btn-primary">Add Division Output</a>
                 </div>
